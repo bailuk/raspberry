@@ -19,7 +19,7 @@ Kann über GitHub oder Mocrosoft Store installier werden
 
 Headless installation unter Linux
 
-1. Image herunterladen: (Raspberry Pi OS Lite 64bit)[https://www.raspberrypi.com/software/operating-systems/]
+1. Image herunterladen: [Raspberry Pi OS Lite 64bit](https://www.raspberrypi.com/software/operating-systems/)
 2. Image auf sd-karte schreiben: 
 
 ```bash
@@ -74,7 +74,9 @@ Langer (+) PIN bei GPIO 24
 
 ## Test LED mit python
 
-1. Auf raspberry pi einloggen
+[Morse Code on an LED](https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/morse_code/)
+
+1. Auf Raspberry Pi einloggen
 2. Python script erstellen `vi test.py`:
 ```python
 import RPi.GPIO as GPIO
