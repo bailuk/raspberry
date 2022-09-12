@@ -35,11 +35,11 @@ dd if=2022-09-06-raspios-bullseye-arm64-lite.img of=/dev/mmcblk0
 # es wurden zwei partitionen auf der SD-Karte erstellt: boot und rootfs.
 ```
 
-3. SSH aktivieren: auf der SD-Karte in `boot` eine leere Datei `ssh` erstellen
+3. SSH aktivieren: auf der SD-Karte in `boot` eine leere Datei `ssh` erstellen.
 SSH mit default Passwort funktioniert leider nicht. 
 Man kann auf `rootfs` in `home/pi/.ssh/authorized_keys` einen public key ablegen.
 [Nach dieser Anleitung](https://phoenixnap.com/kb/ssh-with-key) Wichtig: File-Permission richtig setzen.
-Danach ist das einloggen via ssh ohne Passwort möglich:
+Danach ist das einloggen via ssh ohne Passwort möglich.
 
 4. Booten: SD-Karte im Raspberry Pi einsetzen, Ethernet und Strom einstecken. Warten...
 5. Einloggen: 
@@ -54,25 +54,24 @@ uname -a
 ```
 
 
-## GNU Assembler toolchain
+## GNU Assembler
 
 Toolchain unter Debian oder Ubuntu installieren:
 `sudo apt install gcc-arm-none-eabi`
 
-[Template Projekt herunter laden](https://moodle.ffhs.ch/mod/folder/view.php?id=4172510&forceview=1)
-
-Template Projekt übersetzen: Im projekt verzeichnis `make` ausführen. `kernel.img` wird erstellt.
-
-[GIO Board](https://moodle.ffhs.ch/mod/book/view.php?id=4172503&chapterid=100126)
+Template Projekt übersetzen: `make` ausführen. `kernel.img` wird erstellt.
 
 
 ## LED anschliessen
+
+![LED](doc/led.jpg)
 
 Weiderstand ist 220 Ohm. Wiederstand an GND. 
 Kurzer PIN (-) von LED bei Wiederstand. 
 Langer (+) PIN bei GPIO 24
 
-## Test LED mit python
+
+## Test LED mit Python
 
 [Morse Code on an LED](https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/morse_code/)
 
@@ -92,4 +91,7 @@ while True:
   time.sleep(0.5)	   
 ```
 
-3. Ausführen `sudo python test.py`. LED Blinkt
+3. Ausführen: `sudo python test.py`. LED Blinkt
+
+![LED](doc/pi.jpg)
+
