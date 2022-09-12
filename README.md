@@ -66,7 +66,7 @@ Template Projekt übersetzen: `make` ausführen. `kernel.img` wird erstellt.
 
 ![LED](doc/led.jpg)
 
-Weiderstand ist 220 Ohm. Wiederstand an GND. 
+Wiederstand ist 220 Ohm. Wiederstand an GND. 
 Kurzer PIN (-) von LED bei Wiederstand. 
 Langer (+) PIN bei GPIO 24
 
