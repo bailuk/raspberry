@@ -10,7 +10,7 @@ Die Powershell als Administrator öffnen und folgendes eingeben:
 Weitere nützliche tools für Windows:
 
 [Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/install)
-Kann über GitHub oder Mocrosoft Store installier werden
+Kann über GitHub oder Microsoft Store installier werden
 
 [Visual Studio Code](https://code.visualstudio.com/)
 
