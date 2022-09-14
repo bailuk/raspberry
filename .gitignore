@@ -1,4 +1,5 @@
-kernel.map
-kernel.list
-kernel.img
-build/
+*.map
+*.list
+*.img
+*.o
+*.elf

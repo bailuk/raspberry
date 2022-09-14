@@ -56,11 +56,24 @@ uname -a
 
 ## GNU Assembler
 
-Toolchain unter Debian oder Ubuntu installieren:
-`sudo apt install gcc-arm-none-eabi`
+Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
 
-Template Projekt übersetzen: `make` ausführen. `kernel.img` wird erstellt.
+1. Toolchain unter Debian oder Ubuntu installieren:
+`sudo apt install gcc-aarch64-linux-gnu`
 
+2. Template Projekt übersetzen:
+`cd c-asm-template` und `make` ausführen. `kernel8.img` wird erstellt.
+
+
+## Kernel ausführen
+
+1. Eine SD-Karte mit Raspberry Pi OS erstellen. Wie weiter oben beschreiben, aber ohne SSH configuration.
+
+2. Auf der `boot` partition die Datei `config.txt` mit `c-asm-template/config.txt` ersetzen
+
+3. Auf der `boot` partition die Date `kernel8.img` mit `c-asm-template/kernel8.img` ersetzen
+
+4. SD-Karte einstecken und Raspberry Pi booten. LED leuchtet.
 
 ## LED anschliessen
 
@@ -94,4 +107,3 @@ while True:
 3. Ausführen: `sudo python test.py`. LED Blinkt
 
 ![LED](doc/pi.jpg)
-
