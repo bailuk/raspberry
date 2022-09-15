@@ -2,7 +2,7 @@
 _start:
 	mov	sp, #0x80000
 
-	# Aufruffen von main in main.c:
+	# Aufrufen von main in main.c:
 	# bl	main
 
 	# Assembler variante von main.c: 
