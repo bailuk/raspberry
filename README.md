@@ -58,8 +58,8 @@ uname -a
 
 Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
 
-1. Toolchain unter Debian oder Ubuntu installieren:
-`sudo apt install gcc-aarch64-linux-gnu`
+1. Toolchain (gcc, make und git) unter Debian oder Ubuntu installieren:
+`sudo apt install git make gcc-aarch64-linux-gnu`
 
 2. Template Projekt übersetzen:
 `cd c-asm-template` und `make` ausführen. `kernel8.img` wird erstellt.
@@ -104,6 +104,12 @@ while True:
   time.sleep(0.5)	   
 ```
 
-3. Ausführen: `sudo python test.py`. LED Blinkt
+3. Ausführen: `python test.py`. LED Blinkt
+
+## Dokumentation
+
+- [doc/assembler.md](doc/assembler.md): Assembler syntax and commands  
+- [doc/gpio.md](doc/gpio.md): GPIO Reference  
+
 
 ![LED](doc/pi.jpg)
