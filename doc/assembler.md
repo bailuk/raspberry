@@ -52,6 +52,10 @@ str x1,[x0,#0x1c]        /* Store */
 
 ## Operator
 ```assembly
-and x1, x1, #3           /* and operation: x1 = x1 and 3 (#3 = decimal 3) */
+# 1 = b00001
+# 3 = b00011
+# b = b00100
+and x1, x1, #3           /* if bit 0 and 1 in x1 is set: b00011 */
+
 ```
 

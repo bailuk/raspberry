@@ -5,15 +5,12 @@ CFLAGS	+=	-Iinclude
 kernel8.img: kernel.elf
 	aarch64-linux-gnu-objcopy -O binary $< $@
 
-kernel.elf: boot.o main.o
+kernel.elf: boot.o
 	aarch64-linux-gnu-ld -o $@ $+ -Map System.map -s -T sys.ld -x
 
 boot.o: boot.S
-main.o: main.c
 
 .S.o:
-	aarch64-linux-gnu-gcc $(CFLAGS) -o $@ $<
-.c.o:
 	aarch64-linux-gnu-gcc $(CFLAGS) -o $@ $<
 
 clean:
