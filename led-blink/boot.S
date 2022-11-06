@@ -10,7 +10,7 @@ _start:
     b   1b                   /* jump to 1: (1b -> 1: backward)  b: branch (Lazy loop) */
 
 2:  /* We're on the main core! */
-	mov	sp, #0x80000
+	mov	sp, #0x80000         /* init stack pointer */
 
     mrs x3, CNTFRQ_EL0       /* Read frequency of system counter (read hz) */
     ldr x0,=0xFE200000       /* Basis adresse in r0 speichern */
