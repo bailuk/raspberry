@@ -3,58 +3,24 @@
 	https://wolchok.org/posts/how-to-read-arm64-assembly-language/
 */
 
-	.arch armv8-a                     /* select architecture (see -march) (obsolete?) */
-	.file	"char-loop.c"             /* The original source file name (used by debuggers) */
-	.text                             /* switch to text segment (code segment) */
-	.global	text                      /* share text segment with other modules (obosolete?) */
-	.section	.rodata               /* begin of read only data section */
-	.align	3
-
-.LC0:                                 /* local constant */
-	.string	"hallo welt "             /* zero-terminated string in .rodata section */
-	.section	.data.rel.local,"aw"
-	.align	3
-	.type	text, %object
-	.size	text, 8
-
-text:
-	.xword	.LC0
-	.global	time_unit
-	.section	.rodata
-	.align	3
-	.type	time_unit, %object
-	.size	time_unit, 8
-
-time_unit:  /* obsoleete? */
-	.xword	500
-	.align	3
-
-.LC1:/* local constant */
+.LC1: /* local constant */
 	.string	"sleep %ld\n"
-	.text
-	.align	2
-	.global	sleep
-	.type	sleep, %function
+	.text                      /* switch to text segment */
+	.align 2
 sleep:
-.LFB0:                                /* local function beginning */
-	stp	x29, x30, [sp, -32]!          /* storing a pair, sp = stack pointer */
+.LFB0: /* local function beginning */
+	stp	x29, x30, [sp, -32]!   /* storing a pair, sp = stack pointer */
 	mov	x29, sp
 	str	x0, [sp, 24]
 	ldr	x1, [sp, 24]
 	adrp	x0, .LC1
 	add	x0, x0, :lo12:.LC1           
 	bl	printf
-	nop
-	ldp	x29, x30, [sp], 32           /* loading a pair */
+	ldp	x29, x30, [sp], 32     /* loading a pair */
 	ret
-.LFE0: /* obsolete local function end  */ 
-	.size	sleep, .-sleep
-	.section	.rodata
-	.align	3
-
 
 .LC2: /* local constant */
-	.string	"on"          /* string constant at .LC2 */
+	.string	"on"              /* string constant at .LC2 */
 	.text
 	.align	2
 	.global	on
@@ -63,24 +29,16 @@ on:
 .LFB1:
 	stp	x29, x30, [sp, -16]!
 	mov	x29, sp
-	adrp	x0, .LC2         /* load string address into register 0 */
+	adrp	x0, .LC2          /* load string address into register 0 */
 	add	x0, x0, :lo12:.LC2
-	bl	puts                 /* call put string (TODO: replace with LED I/O) */
-	nop
+	bl	puts                  /* call put string (TODO: replace with LED I/O) */
 	ldp	x29, x30, [sp], 16
 	ret
-.LFE1:
-	.size	on, .-on
-	.section	.rodata
-	.align	3
-
 
 .LC3: 
 	.string	"off"
 	.text
 	.align	2
-	.global	off
-	.type	off, %function
 off:
 .LFB2:
 	stp	x29, x30, [sp, -16]!
@@ -88,15 +46,8 @@ off:
 	adrp	x0, .LC3
 	add	x0, x0, :lo12:.LC3
 	bl	puts
-	nop
 	ldp	x29, x30, [sp], 16
 	ret
-.LFE2: /* obsolete local function export */
-	.size	off, .-off
-	.align	2
-	.global	space
-	.type	space, %function
-
 
 space:
 .LFB3:
@@ -107,15 +58,8 @@ space:
 	mov	x0, 500                /* move 500 (timeout unit) into register 0 */
 	mul	x0, x1, x0             /* r0 = r1 * r0 => argument for sleep()*/
 	bl	sleep                  /* call sleep() */
-	nop                        /* obsolete: align for linker */
 	ldp	x29, x30, [sp], 32     /* restore context ... */
 	ret                        /* ... and return */
-.LFE3:  /* obsolete local function export */
-	.size	space, .-space
-	.align	2
-	.global	light
-	.type	light, %function
-
 
 light:
 .LFB4:
@@ -138,16 +82,8 @@ light:
 	ldr	w0, [sp, 28]            /* get first argument (count) into register 0 */
 	cmp	w0, 0                   /* is it 0 ? */
 	bgt	.L7                     /* branch if greater than 0 */
-	nop                         /* obsolete: align for linker */
-	nop
 	ldp	x29, x30, [sp], 32      /* if 0 restore context... */
 	ret                         /* ...and return by calling old pc */
-.LFE4: /* obsolete local function export */
-	.size	light, .-light
-	.align	2
-	.global	s
-	.type	s, %function
-
 
 s:
 .LFB5:
@@ -158,15 +94,8 @@ s:
 	mov	x1, x0                  /* and move it to register 1 (why?) */
 	ldr	w0, [sp, 28]            /* load count argument from stack into register 0 */
 	bl	light                   /* call light */
-	nop                         /* obsolete: align for linker */
 	ldp	x29, x30, [sp], 32      /* restore context.. */
 	ret                         /* and call old next pc */
-.LFE5: /* obsolete local function export */
-	.size	s, .-s
-	.align	2
-	.global	l
-	.type	l, %function
-
 
 l:
 .LFB6: /* see s() */
@@ -178,15 +107,8 @@ l:
 	mov	x1, x0
 	ldr	w0, [sp, 28]
 	bl	light
-	nop
 	ldp	x29, x30, [sp], 32
 	ret
-.LFE6: /* obsolete local function export */
-	.size	l, .-l
-	.align	2
-	.global	blink
-	.type	blink, %function
-
 
 blink:
 .LFB7: 
@@ -437,30 +359,25 @@ blink:
 	mov	w0, 2
 	bl	s
 	b	.L12
-.L37: /* else: unknown character: assume space */
+.L37: /* else: unknown character: asume space */
 	mov	w0, 4
 	bl	space
 .L12: /* end of function (everithing meets here) */
 	mov	w0, 2
 	bl	space
-	nop                         /* obsolete */
 	ldp	x29, x30, [sp], 32      /* free stack and restore registers... */
 	ret                         /* ... and return to old pc */
-.LFE7: /* local function export char_loop (obsolete) */
-	.size	blink, .-blink
-	.align	2
-	.global	char_loop
-	.type	char_loop, %function
 
-
-
+.LC8: /* local constant */
+	.string	"hallo welt "
+	.text                             /* switch to text segment */
+	.align 2
 char_loop:
 .LFB8: /* local function block */
 	stp	x29, x30, [sp, -32]!   /* store x29 and x30 into stack at sp (stack pointer => address in RAM) -32 bit */
 	mov	x29, sp                /* move stack pointer to x29 */
-	adrp	x0, text           /* store address of text in x0 */
-	add	x0, x0, :lo12:text     /* add low 12 bit offset https://sourceware.org/binutils/docs/as/AArch64_002dRelocations.html#AArch64_002dRelocations */
-	ldr	x0, [x0]               /* write contents at address of x0 into x0 */
+	adrp	x0, .LC8           /* store address of text in x0 */
+	add	x0, x0, :lo12:.LC8     /* add low 12 bit offset https://sourceware.org/binutils/docs/as/AArch64_002dRelocations.html#AArch64_002dRelocations */
 	str	x0, [sp, 24]           /* store x0 int stack pointer + 24 bit */
 	b	.L42                   /* branch l42 (start loop) */
 .L43: /* continue loop */                       
@@ -475,18 +392,15 @@ char_loop:
 	ldrb	w0, [x0]           /* load content at address in x0 into w0 */
 	cmp	w0, 0                  /* is it (character) 0 ? */
 	bne	.L43                   /* branch not equal (continue loop) */
-	nop                        /* nop (obsolete: only for export / linker) */
-	nop                        /* nop (obsolete) */
 	ldp	x29, x30, [sp], 32     /* yes it is 0 => restore stack pointer */
 	ret                        /* return */
+
 .LFE8:                         /* local function export main (obsolete) */                            
 	.size	char_loop, .-char_loop
 	.align	2
 	.global	main
 	.type	main, %function
 
-
-	
 main:
 .LFB9:
 	stp	x29, x30, [sp, -32]!
@@ -497,8 +411,8 @@ main:
 	mov	w0, 0
 	ldp	x29, x30, [sp], 32
 	ret
+
 .LFE9:  /* local function export entrypoint (obsolete) */
 	.size	main, .-main
 	.ident	"GCC: (Debian 12.2.0-2) 12.2.0"
 	.section	.note.GNU-stack,"",@progbits
-
