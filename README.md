@@ -1,8 +1,8 @@
 # Entwicklungsumgebung für Raspberry Pi
 
-## WSL2
+## WSL
 
-[WSL2 aktivieren und Ubuntu installieren](https://docs.microsoft.com/en-us/windows/wsl/install)
+[WSL aktivieren und Ubuntu installieren](https://docs.microsoft.com/en-us/windows/wsl/install)
 
 Die Powershell als Administrator öffnen und folgendes eingeben:
 `wsl --install`
@@ -62,7 +62,7 @@ Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
 `sudo apt install git make gcc-aarch64-linux-gnu`
 
 2. Projekt übersetzen:
-`cd led-blink` und `make` ausführen. `kernel8.img` wird erstellt.
+`cd led-blink` oder `cd led-blink-new` und `make` ausführen. `kernel8.img` wird erstellt.
 
 
 ## Kernel ausführen
