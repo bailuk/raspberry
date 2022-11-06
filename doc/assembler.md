@@ -30,27 +30,35 @@ mrs     x1, mpidr_el1
 
 ```
 
-## Branch
+## Sprung Befehle
+[Branch Instructions](https://www.cs.nmsu.edu/~hdp/cs273/notes/branches.html)
+
 ```assembly
 main:                   /* label */
 2:                      /* label */
 cbz     x1, 2f          /* branch zero       [ if (x1 == null) jumpForward to 2: ]  */
 cnbz    x0, 1b          /* branch not zero   [ if (x0 != null) jumpBackward to 1: ] */
+bl      function_name   /* branch and link (call subroutine) */
+bhi     label           /* branch higher */
+bgt     label           /* branch greater than */
 ```
 
-## Event
+## System
 ```assembly
+nop                      /* no operation */
 wfe                      /* wait for event */
 ```
 
-## Memory
+## Transport Befehle
 ```assembly
 ldr x0,=0xFE200000       /* Load register */
 mov x1,#0x1000000        /* Move */
 str x1,[x0,#0x1c]        /* Store */
+stp x1, x2, [sp, -22]!   /* Soring a pair */
+ldp x1, x2, [sp], 32     /* Loading a pair */
 ```
 
-## Operator
+## Logische Befehle
 ```assembly
 # 1 = b00001
 # 3 = b00011
@@ -59,3 +67,11 @@ and x1, x1, #3           /* if bit 0 and 1 in x1 is set: b00011 */
 
 ```
 
+## Arithmetic
+```assembly
+add x1, x1, #3           /* x1 = x1 + 3 */
+```
+
+## Adressing
+- [x0] => content of address
+- 4   => decimal number
