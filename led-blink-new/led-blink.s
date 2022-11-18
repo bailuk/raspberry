@@ -16,6 +16,26 @@
 
 .global    _start /* "main" function see end of file */
 
+_start:
+    mrs x1, mpidr_el1             /* move register system (MPIDR_EL1, Multiprocessor Affinity Register, EL1) to x1 */
+    and x1, x1, #3                /* and operation: x1 = x1 and 3 (#3 = decimal 3) 0b11 */
+    cbz x1, .L_START              /* check if register 1 is not zero -> jump to .L_START. cbz: call branch on zero */
+
+.L_WAIT:  /* We're _not_ on the main core, so hang in an infinite wait loop */
+    wfe                           /* wait for event */
+    b .L_WAIT                     /* jump to beginning of loop */
+
+.L_START:  /* We're on the main core! */
+    mov    sp, #0x80000           /* init stack pointer */
+
+    /* init GIO. See https://www.instructables.com/Bare-Metal-Raspberry-Pi-3Blinking-LED/ */
+    ldr x0,=0xFE200000           /* Basis adresse in r0 speichern */
+    mov w1,#0x1000               /* Bit 12(13) setzen */
+    str w1,[x0,#0x08]            /* FSEL2(SELECT) (funktion wählen) */
+    
+    bl char_loop                 /* simply run char_loop  (branch & link -> ret will return here) */
+    b .L_WAIT                    /* go to event loop */
+
 sleep:
 .LFB0: /* local function beginning */
     stp    x29, x30, [sp, -32]!  /* storing a pair, sp = stack pointer */
@@ -407,23 +427,3 @@ char_loop:
     bne    .L43                   /* branch not equal (continue loop) */
     ldp    x29, x30, [sp], 32     /* yes it is 0 => restore stack pointer */
     ret                           /* return */
-
-_start:
-    mrs x1, mpidr_el1             /* move register system (MPIDR_EL1, Multiprocessor Affinity Register, EL1) to x1 */
-    and x1, x1, #3                /* and operation: x1 = x1 and 3 (#3 = decimal 3) 0b11 */
-    cbz x1, .L_START              /* check if register 1 is not zero -> jump to .L_START. cbz: call branch on zero */
-
-.L_WAIT:  /* We're _not_ on the main core, so hang in an infinite wait loop */
-    wfe                           /* wait for event */
-    b .L_WAIT                     /* jump to beginning of loop */
-
-.L_START:  /* We're on the main core! */
-    mov    sp, #0x80000           /* init stack pointer */
-
-    /* init GIO. See https://www.instructables.com/Bare-Metal-Raspberry-Pi-3Blinking-LED/ */
-    ldr x0,=0xFE200000           /* Basis adresse in r0 speichern */
-    mov w1,#0x1000               /* Bit 12(13) setzen */
-    str w1,[x0,#0x08]            /* FSEL2(SELECT) (funktion wählen) */
-    
-    bl char_loop                 /* simply run char_loop */
-    b .L_WAIT                    /* go to event loop */
