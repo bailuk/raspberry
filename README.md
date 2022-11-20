@@ -62,16 +62,16 @@ Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
 `sudo apt install git make gcc-aarch64-linux-gnu`
 
 2. Projekt übersetzen:
-`cd led-blink` oder `cd led-blink-new` und `make` ausführen. `kernel8.img` wird erstellt.
+`cd src` und `make` ausführen. `kernel8.img` wird erstellt.
 
 
 ## Kernel ausführen
 
 1. Eine SD-Karte mit Raspberry Pi OS erstellen. Wie weiter oben beschreiben, aber ohne SSH configuration.
 
-2. Auf der `boot` partition die Datei `config.txt` mit `led-blink/config.txt` ersetzen
+2. Auf der `boot` partition die Datei `config.txt` mit `src/config.txt` ersetzen
 
-3. Auf der `boot` partition die Date `kernel8.img` mit `led-blink/kernel8.img` ersetzen
+3. Auf der `boot` partition die Datei `kernel8.img` mit `src/kernel8.img` ersetzen
 
 4. SD-Karte einstecken und Raspberry Pi booten. LED blinkt.
 

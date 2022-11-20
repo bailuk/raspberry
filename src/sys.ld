@@ -10,16 +10,3 @@ SECTIONS
 	.text	: {*(.text*)} > ram
 	.bss	: {*(.bss*)} > ram
 }
-
-
-/* 
-SECTIONS {
-  .text 0x8000 : {
-    *(.text)
-  }
-
-  .data : {
-    *(.data)
-  }
-}
-*/

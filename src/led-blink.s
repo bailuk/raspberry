@@ -4,17 +4,11 @@
     ../doc/assembler.md
     ../doc/gpio.md
 
-    This version is merged from `../led-blink/boot.S` and `../doc/char-loop/char-loop-documented.s`
+    This version is merged from `../led-blink/boot.S` and `../doc/test-assembly/char-loop-documented.s`
     - Program will blink (morse) string in .LC8 (char_loop)
     - See `../doc/activity.pdf` for activity diagram.
     - To build run `make`
-
-    TODO:
-    - [] Test on raspberry pi
-    - [] Calculate timout value from argument in function sleep
 */
-
-.global    _start /* "main" function see end of file */
 
 _start:
     mrs x1, mpidr_el1             /* move register system (MPIDR_EL1, Multiprocessor Affinity Register, EL1) to x1 */
@@ -44,8 +38,10 @@ sleep:
     str    x0, [sp, 24]          /* push argument (timeout) on stack (what for?) */
 
     mrs x3, CNTFRQ_EL0           /* Read frequency of system counter (read hz) */
-    msr CNTP_TVAL_EL0, x3        /* Holds the timer value for the EL1 physical timer (store timer frequency)  
-                                    TODO: set correct timeout from register 0 */
+    mov x2, 1000
+    sdiv x3, x3, x2              /* x3 = x3 / 1000 (signed, 64-bit divide) -> divide frequency by 1000 */
+    mul x3, x3, x0               /* x3 = x3 * x0 -> multiply x3 by parameter1 */
+    msr CNTP_TVAL_EL0, x3        /* Holds the timer value for the EL1 physical timer (store timer frequency) */
     mov x1, #1
     msr CNTP_CTL_EL0, x1         /* Control register of EL1 physical timer. Enable timer */
 
@@ -105,12 +101,12 @@ light:
     ldr    w0, [sp, 28]          /* get first argument from stack */
     sub    w0, w0, #1            /* subtract 1 and store into register 0 */
     str    w0, [sp, 28]          /* push register 0 into stack */
-    bl    on                     /* call on() */
+    bl     on                    /* call on() */
     ldr    x0, [sp, 16]          /* get second argument (timeout argument for sleep) from stack */
-    bl    sleep                  /* call sleep(x0) */
-    bl    off                    /* call off() */
+    bl     sleep                 /* call sleep(x0) */
+    bl     off                   /* call off() */
     mov    x0, 500               /* set timout argument to 500... */
-    bl    sleep                  /* ... and call sleep(x0) */
+    bl     sleep                 /* ... and call sleep(x0) */
 .L6:  /* start loop */
     ldr    w0, [sp, 28]          /* get first argument (count) into register 0 */
     cmp    w0, 0                 /* is it 0 ? */
@@ -402,7 +398,7 @@ blink:
     ret                           /* ... and return to old pc */
 
 .LC8: /* local constant */
-    .string    "hallo welt "
+    .string    "sos sos "
     .text                         /* switch to text segment */
     .align 2
 char_loop:

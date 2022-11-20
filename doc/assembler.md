@@ -6,6 +6,8 @@
 
 [AArch64 Register and Instruction Quick Start](https://wiki.cdot.senecacollege.ca/wiki/AArch64_Register_and_Instruction_Quick_Start)
 
+[ARM Cortex-A Series Programmer's Guide for ARMv8-A](https://developer.arm.com/documentation/den0024/a/The-A64-instruction-set/Data-processing-instructions/Multiply-and-divide-instructions)
+
 ## Register
 ```assembly
 /*
@@ -70,6 +72,8 @@ and x1, x1, #3           /* if bit 0 and 1 in x1 is set: b00011 */
 ## Arithmetic
 ```assembly
 add x1, x1, #3           /* x1 = x1 + 3 */
+mul x0, x1, x2           /* x0 = x1 * x2 */
+sdiv x0, x1, x2          /* x0 = x1 / x2 (signed, 64-bit divide) */
 ```
 
 ## Adressing
