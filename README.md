@@ -75,6 +75,7 @@ Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
 
 4. SD-Karte einstecken und Raspberry Pi booten. LED blinkt.
 
+
 ## LED anschliessen
 
 ![LED](doc/led.jpg)
@@ -106,11 +107,11 @@ while True:
 
 3. Ausführen: `python test.py`. LED Blinkt
 
+
 ## Dokumentation
 
 - [doc/assembler.md](doc/assembler.md): Assembler syntax and commands
-- [doc/gpio.md](doc/gpio.md): GPIO reference
-- [doc/timer.md](doc/timer.md): Physical timer reference
+- [doc/hardware.md](doc/hardware.md): GPIO, Timer, CPU ...
 
 
 ![LED](doc/pi.jpg)

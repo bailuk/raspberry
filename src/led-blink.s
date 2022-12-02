@@ -1,13 +1,18 @@
 /* 
-    https://sourceware.org/binutils/docs/as/ARM-Directives.html 
-    https://wolchok.org/posts/how-to-read-arm64-assembly-language/
-    ../doc/assembler.md
-    ../doc/gpio.md
+    References:
+    - [Writing a "bare metal" operating system for Raspberry Pi 4](https://github.com/isometimes/rpi4-osdev)
+    - [Rapberry PI 4 IO memory base address test](../doc/test-gpio/gpio-test.c)
 
     This version is merged from `../led-blink/boot.S` and `../doc/test-assembly/char-loop-documented.s`
     - Program will blink (morse) string in .LC8 (char_loop)
     - See `../doc/activity.pdf` for activity diagram.
     - To build run `make`
+
+    More documentation:
+    ../doc/assembler.md
+    ../doc/hardware.md
+    ../README.md
+    ../doc/
 */
 
 _start:
@@ -16,19 +21,19 @@ _start:
     cbz x1, .L_START              /* check if register 1 is not zero -> jump to .L_START. cbz: call branch on zero */
 
 .L_WAIT:  /* We're _not_ on the main core, so hang in an infinite wait loop */
-    wfe                           /* wait for event */
+    wfe                           /* wait for event (ARM instruction: low power mode and stop executing code) */
     b .L_WAIT                     /* jump to beginning of loop */
 
 .L_START:  /* We're on the main core! */
     mov    sp, #0x80000           /* init stack pointer */
 
     /* init GIO. See https://www.instructables.com/Bare-Metal-Raspberry-Pi-3Blinking-LED/ */
-    ldr x0,=0xFE200000           /* Basis adresse in r0 speichern */
-    mov w1,#0x1000               /* Bit 12(13) setzen */
-    str w1,[x0,#0x08]            /* FSEL2(SELECT) (funktion wählen) */
+    ldr x0,=0xFE200000           /* load register (GPIO Basis Adresse in r0 speichern) */
+    mov w1,#0x1000               /* move 0x1000 to r1: Bit 12(13) setzen */
+    str w1,[x0,#0x08]            /* store: FSEL2(SELECT) (funktion wählen) */
     
-    bl char_loop                 /* simply run char_loop  (branch & link -> ret will return here) */
-    b .L_WAIT                    /* go to event loop */
+    bl char_loop                 /* branch and link: simply run char_loop  (branch & link -> ret will return here) */
+    b .L_WAIT                    /* branch: go to event loop (end of program) */
 
 sleep:
 .LFB0: /* local function beginning */
