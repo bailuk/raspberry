@@ -66,6 +66,20 @@ GPCLR has one bit for every GPIO
 - [Armv8-A Architecture Registers](https://developer.arm.com/documentation/ddi0595/2021-12/AArch64-Registers?lang=en)
 - [MPIDR, Multiprocessor Affinity Register](https://developer.arm.com/documentation/ddi0595/2021-12/AArch64-Registers/MPIDR-EL1--Multiprocessor-Affinity-Register?lang=en)
 
+## Register
+
+[AArch64 special registers](https://developer.arm.com/documentation/den0024/a/ARMv8-Registers/AArch64-special-registers)
+- 29 register are general purpose
+    - R0 bis R28
+    - X0 -> 64 bit access (bit 0 to 63)
+    - W0 -> 32 bit access (bit 0 to 31)
+- Special register:
+    - R29: Frame pointer
+    - R30: Procedure link register
+    - SP:  Stack pointer
+    - XZR and WZR: Zero register
+    - PC: Program counter
+
 
 # ARM Cortex-A72 Physical Timer
 

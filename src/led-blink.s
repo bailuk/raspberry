@@ -146,7 +146,8 @@ l: /* long blink n times */
 
 blink:
 .LFB7: 
-    stp    x29, x30, [sp, -32]!  /* https://stackoverflow.com/questions/64638627/explain-arm64-instruction-stp
+    stp    x29, x30, [sp, -32]!  /* store pair (x29 und x30) into sp -32, sp = sp -32
+                                    https://stackoverflow.com/questions/64638627/explain-arm64-instruction-stp
                                     1. suptract 32 from address stored at sp (stack pointer) and store new value into RAM at address sp
                                     2. store x29 and x30 into memory at address stored at sp
                                  */ 
@@ -399,7 +400,7 @@ blink:
 .L12: /* end of function (everithing meets here) */
     mov    w0, 2
     bl     space
-    ldp    x29, x30, [sp], 32     /* free stack and restore registers... */
+    ldp    x29, x30, [sp], 32     /* load pair: free stack and restore registers... */
     ret                           /* ... and return to old pc */
 
 .LC8: /* local constant */
@@ -408,16 +409,16 @@ blink:
     .align 2
 char_loop:
 .LFB8: /* local function block */
-    stp    x29, x30, [sp, -32]!   /* store x29 and x30 into stack at sp (stack pointer => address in RAM) -32 bit */
+    stp    x29, x30, [sp, -32]!   /* storing a pair: store x29 and x30 into stack at sp (stack pointer => address in RAM) -32 bit */
     mov    x29, sp                /* move stack pointer to x29 */
     adrp   x0, .LC8               /* store address of text in x0 */
     add    x0, x0, :lo12:.LC8     /* add low 12 bit offset https://sourceware.org/binutils/docs/as/AArch64_002dRelocations.html#AArch64_002dRelocations */
     str    x0, [sp, 24]           /* store x0 int stack pointer + 24 bit */
     b      .L42                   /* branch l42 (start loop) */
 .L43: /* continue loop */                       
-    ldr    x0, [sp, 24]           /* load back sp + 24bit into x0 (text pointer)*/
-    ldrb   w0, [x0]               /* get char from x0 address (w0 will be argument for blink(char c) */
-    bl     blink                  /* call blink */
+    ldr    x0, [sp, 24]           /* load into register: load back sp + 24bit into x0 (text pointer)*/
+    ldrb   w0, [x0]               /* load into register (byte): get char from x0 address (w0 will be argument for blink(char c) */
+    bl     blink                  /* branch and link: call blink(w0) */
     ldr    x0, [sp, 24]           /* and again load back text address pointer */
     add    x0, x0, 1              /* increment text address pointer by one */
     str    x0, [sp, 24]           /* and store new text adress ointer to stack (offset 24) */

@@ -103,5 +103,15 @@ sdiv x0, x1, x2          /* x0 = x1 / x2 (signed, 64-bit divide) */
 
 ## Adressing
 
-- [x0] => content of address
-- 4   => decimal number
+- [x0]           => content of address (Memory / RAM)
+- 4              => decimal number
+- [sp, -32]!     => content of address (Memory / RAM) sp is base and -32 is offset, '!': update base register (sp = sp - 32)
+
+```assembly
+adr  x0, .LC8            /* store address of .LC8 in x0 (uses PC to calculate address) */
+
+adrp x0, .LC8            /* store pc-relative address of .LC8 into x0 */
+add  x0, x0, :lo12:.LC8 
+
+ldr r0, #0x28            /* load into register ldrh (halfword, 16bit), ldrb (byte) 8bit */
+```
