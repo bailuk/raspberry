@@ -9,11 +9,8 @@ Die Powershell als Administrator öffnen und folgendes eingeben:
 `wsl --install`
 
 Weitere nützliche tools für Windows:
-
-[Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/install)
-Kann über GitHub oder Microsoft Store installier werden
-
-[Visual Studio Code](https://code.visualstudio.com/)
+- [Windows Terminal](https://docs.microsoft.com/en-us/windows/terminal/install). Kann über GitHub oder Microsoft Store installier werden
+- [Visual Studio Code](https://code.visualstudio.com/)
 
 
 ## Raspberry OS
@@ -122,7 +119,7 @@ output:
 
 ## Activity Diagramm
 
-[doc/acitity.pdf](doc/activity.pdf)
+[doc/activity.pdf](doc/activity.pdf)
 
 
 # Dokumentation
