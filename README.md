@@ -1,4 +1,5 @@
-# Entwicklungsumgebung für Raspberry Pi
+# Setup Entwicklungsumgebung und Raspberry Pi
+
 
 ## WSL
 
@@ -56,24 +57,10 @@ uname -a
 
 ## GNU Assembler
 
-Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000
+Raspberry Pi 4 ist arm64 (aarch64) und GPIO hat die basis Adresse 0xFE200000  
 
-1. Toolchain (gcc, make und git) unter Debian oder Ubuntu installieren:
+Toolchain (gcc, make und git) unter Debian oder Ubuntu installieren:
 `sudo apt install git make gcc-aarch64-linux-gnu`
-
-2. Projekt übersetzen:
-`cd src` und `make` ausführen. `kernel8.img` wird erstellt.
-
-
-## Kernel ausführen
-
-1. Eine SD-Karte mit Raspberry Pi OS erstellen. Wie weiter oben beschreiben, aber ohne SSH configuration.
-
-2. Auf der `boot` partition die Datei `config.txt` mit `src/config.txt` ersetzen
-
-3. Auf der `boot` partition die Datei `kernel8.img` mit `src/kernel8.img` ersetzen
-
-4. SD-Karte einstecken und Raspberry Pi booten. LED blinkt.
 
 
 ## LED anschliessen
@@ -108,10 +95,41 @@ while True:
 3. Ausführen: `python test.py`. LED Blinkt
 
 
-## Dokumentation
+# Projekt
+
+## Übersetzen
+
+`cd src` und `make` ausführen. `kernel8.img` wird erstellt.  
+
+input: 
+- [src/led-blink.s](src/led-blink.s) GNU Assembly source code
+- [src/sys.ld](src/sys.ld) Linker configuration
+
+output:
+- `kernel8.img`
+
+
+## Ausführen
+
+1. Eine SD-Karte mit Raspberry Pi OS erstellen. Wie weiter oben beschreiben, aber ohne SSH configuration.
+
+2. Auf der `boot` partition die Datei `config.txt` mit `src/config.txt` ersetzen
+
+3. Auf der `boot` partition die Datei `kernel8.img` mit `src/kernel8.img` ersetzen
+
+4. SD-Karte einstecken und Raspberry Pi booten. LED blinkt.
+
+
+## Activity Diagramm
+
+[doc/acitity.pdf](doc/activity.pdf)
+
+
+# Dokumentation
 
 - [doc/assembler.md](doc/assembler.md): Assembler syntax and commands
 - [doc/hardware.md](doc/hardware.md): GPIO, Timer, CPU ...
+- [doc/](doc/): Test- und Beispiel- Code
 
 
 ![LED](doc/pi.jpg)
