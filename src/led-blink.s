@@ -3,7 +3,8 @@
     - [Writing a "bare metal" operating system for Raspberry Pi 4](https://github.com/isometimes/rpi4-osdev)
     - [Rapberry PI 4 IO memory base address test](../doc/test-gpio/gpio-test.c)
 
-    This version is merged from `../led-blink/boot.S` and `../doc/test-assembly/char-loop-documented.s`
+    This version is adapted and extended from `../doc/test-assembly/char-loop-documented.s`
+    - Original structure based on template from [Einige wichtige Dateien (nur GNU)](https://moodle.ffhs.ch/mod/folder/view.php?id=4172510)
     - Program will blink (morse) string in .LC8 (char_loop)
     - See `../doc/activity.pdf` for activity diagram.
     - To build run `make`
