@@ -38,7 +38,7 @@ _start:
 sleep:
 .LFB0: /* local function beginning */
     stp    x29, x30, [sp, -32]!  /* storing a pair, sp = stack pointer */
-    mov    x29, sp               /* store stack pointer */
+    mov    x29, sp               /* store stack pointer into frame pointer */
 
     str    x0, [sp, 24]          /* push argument (timeout) on stack (what for?) */
 
@@ -86,7 +86,7 @@ off:
 space:
 .LFB3:
     stp    x29, x30, [sp, -32]!  /* save register into stack */
-    mov    x29, sp               /* set pc */
+    mov    x29, sp               /* set Frame Pointer */
     str    w0, [sp, 28]          /* push first argument (int count) into stack ... */
     ldrsw    x1, [sp, 28]        /* ... and load it into register 1 */
     mov    x0, 500               /* move 500 (timeout unit) into register 0 */
@@ -98,7 +98,7 @@ space:
 light:
 .LFB4:
     stp    x29, x30, [sp, -32]!  /* save register into stack */
-    mov    x29, sp               /* set pc */
+    mov    x29, sp               /* set Frame Pointer */
     str    w0, [sp, 28]          /* push first argument (int count) into stack */
     str    x1, [sp, 16]          /* push second argument (long timeout) into stack */
     b    .L6                     /* start loop */
@@ -122,7 +122,7 @@ light:
 s: /* short blink n times */
 .LFB5:
     stp    x29, x30, [sp, -32]!  /* save register into stack */
-    mov    x29, sp               /* set pc */
+    mov    x29, sp               /* set Frame Pointer */
     str    w0, [sp, 28]          /* push count argument into stack */
     mov    x0, 500               /* set timeout argument to 500 */
     mov    x1, x0                /* and move it to register 1 (why?) */
@@ -400,8 +400,8 @@ blink:
 .L12: /* end of function (everithing meets here) */
     mov    w0, 2
     bl     space
-    ldp    x29, x30, [sp], 32     /* load pair: free stack and restore registers... */
-    ret                           /* ... and return to old pc */
+    ldp    x29, x30, [sp], 32     /* load pair: free stack and restore Frame Pointer and Procedure Link registers... */
+    ret                           /* ... and return to old Procedure Link */
 
 .LC8: /* local constant */
     .string    "sos sos "
@@ -409,8 +409,8 @@ blink:
     .align 2
 char_loop:
 .LFB8: /* local function block */
-    stp    x29, x30, [sp, -32]!   /* storing a pair: store x29 and x30 into stack at sp (stack pointer => address in RAM) -32 bit */
-    mov    x29, sp                /* move stack pointer to x29 */
+    stp    x29, x30, [sp, -32]!   /* storing a pair: store x29 and x30 into stack at sp (stack pointer => address in RAM) -32 byte */
+    mov    x29, sp                /* move stack pointer to x29: set new frame pointer */
     adrp   x0, .LC8               /* store address of text in x0 */
     add    x0, x0, :lo12:.LC8     /* add low 12 bit offset https://sourceware.org/binutils/docs/as/AArch64_002dRelocations.html#AArch64_002dRelocations */
     str    x0, [sp, 24]           /* store x0 int stack pointer + 24 bit */
